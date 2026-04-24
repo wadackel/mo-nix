@@ -1,5 +1,7 @@
 # mo-nix
 
+[![CI](https://github.com/wadackel/mo-nix/actions/workflows/ci.yaml/badge.svg)](https://github.com/wadackel/mo-nix/actions/workflows/ci.yaml)
+
 Nix flake that packages [`k1LoW/mo`](https://github.com/k1LoW/mo) — a Markdown
 viewer that renders files in a browser — as an overlay, with a daily GitHub
 Actions workflow that tracks new upstream releases automatically.
