@@ -21,16 +21,10 @@ jobs:
       - uses: ./.github/actions/setup-nix
       - name: Flake check
         shell: bash
-        run: |
-          eval "$(nix print-dev-env)"
-          just check
+        run: nix develop -c just check
       - name: Format check
         shell: bash
-        run: |
-          eval "$(nix print-dev-env)"
-          just fmt-check
+        run: nix develop -c just fmt-check
       - name: Build mo for current system
         shell: bash
-        run: |
-          eval "$(nix print-dev-env)"
-          just build
+        run: nix develop -c just build

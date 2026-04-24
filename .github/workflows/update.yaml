@@ -21,16 +21,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          eval "$(nix print-dev-env)"
-          result=$(just update)
+          result=$(nix develop -c just update)
           printf '%s\n' "$result"
           printf 'result=%s\n' "$result" >> "$GITHUB_OUTPUT"
       - name: Verify flake
         if: steps.update.outputs.result == 'changed'
         shell: bash
-        run: |
-          eval "$(nix print-dev-env)"
-          just check
+        run: nix develop -c just check
       - name: Commit and push
         if: steps.update.outputs.result == 'changed'
         shell: bash
