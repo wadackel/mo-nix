@@ -1,0 +1,74 @@
+name: Update sources
+
+on:
+  schedule:
+    - cron: "17 19 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: ./.github/actions/setup-nix
+      - name: Run update script
+        id: update
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          eval "$(nix print-dev-env)"
+          result=$(just update)
+          printf '%s\n' "$result"
+          printf 'result=%s\n' "$result" >> "$GITHUB_OUTPUT"
+      - name: Verify flake
+        if: steps.update.outputs.result == 'changed'
+        shell: bash
+        run: |
+          eval "$(nix print-dev-env)"
+          just check
+      - name: Commit and push
+        if: steps.update.outputs.result == 'changed'
+        shell: bash
+        run: |
+          tag=$(jq -r .tag sources.json)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sources.json
+          git commit -m "chore: bump mo to ${tag}"
+          git push
+      - name: Open failure issue
+        if: failure()
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const label = "update-failed";
+            const { owner, repo } = context.repo;
+            const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
+            const existing = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: "open",
+              labels: label,
+              per_page: 1,
+            });
+            if (existing.data.length > 0) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: existing.data[0].number,
+                body: `Another update run failed: ${runUrl}`,
+              });
+              return;
+            }
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: "Automated update workflow failed",
+              body: `The scheduled update workflow failed.\n\nSee the run log: ${runUrl}`,
+              labels: [label],
+            });
