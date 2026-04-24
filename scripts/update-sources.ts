@@ -10,6 +10,10 @@
 const UPSTREAM_OWNER = "k1LoW";
 const UPSTREAM_REPO = "mo";
 
+// Restricts upstream-controlled tags to a shape that is safe to interpolate
+// into shell commands, commit messages, and Nix string contexts downstream.
+const TAG_PATTERN = /^v\d+\.\d+\.\d+(?:-[A-Za-z0-9.]+)?$/;
+
 type Ext = "zip" | "tar.gz";
 
 type PlatformSpec = {
@@ -122,6 +126,9 @@ function versionFromTag(tag: string): string {
 
 async function main(): Promise<void> {
   const release = await fetchLatestRelease();
+  if (!TAG_PATTERN.test(release.tag_name)) {
+    throw new Error(`Refusing tag with unexpected shape: ${JSON.stringify(release.tag_name)}`);
+  }
   const current = await readCurrent();
 
   if (current && current.tag === release.tag_name) {
