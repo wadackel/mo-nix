@@ -19,9 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - uses: ./.github/actions/setup-nix
-      - name: Flake check
+      - name: Flake check (current system)
         shell: bash
         run: nix develop -c just check
+      - name: Evaluate all supported systems
+        shell: bash
+        run: nix develop -c just check-eval-all
       - name: Format check
         shell: bash
         run: nix develop -c just fmt-check
