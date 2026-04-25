@@ -129,9 +129,11 @@ async function main(): Promise<void> {
   if (!TAG_PATTERN.test(release.tag_name)) {
     throw new Error(`Refusing tag with unexpected shape: ${JSON.stringify(release.tag_name)}`);
   }
+  console.error(`[update-sources] upstream latest tag: ${release.tag_name}`);
   const current = await readCurrent();
 
   if (current && current.tag === release.tag_name) {
+    console.error("[update-sources] decision: unchanged (tags match)");
     console.log("unchanged");
     return;
   }
@@ -149,6 +151,9 @@ async function main(): Promise<void> {
     platforms,
   };
   await writeAtomic(next);
+  console.error(
+    `[update-sources] decision: changed (${current?.tag ?? "(none)"} -> ${release.tag_name})`,
+  );
   console.log("changed");
 }
 
