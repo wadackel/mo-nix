@@ -43,8 +43,10 @@ jobs:
           set -euo pipefail
           tag=$(jq -r .tag sources.json)
           # update-sources.ts already restricts tag shape, but re-check here so the
-          # commit step stays safe even if sources.json is hand-edited.
-          if ! [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.]+)?$ ]]; then
+          # commit step stays safe even if sources.json is hand-edited. Bash uses
+          # POSIX ERE in [[ =~ ]], so leading-zero rejection is written with
+          # `(0|[1-9][0-9]*)` rather than `\d`.
+          if ! [[ "$tag" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[A-Za-z0-9.]+)?$ ]]; then
             printf 'refusing tag with unexpected shape: %s\n' "$tag" >&2
             exit 1
           fi

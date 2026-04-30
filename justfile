@@ -3,7 +3,11 @@ default:
 
 # Refresh sources.json from the latest upstream release
 update:
-    deno run -A scripts/update-sources.ts
+    deno run --allow-read --allow-write --allow-run --allow-env --allow-net scripts/update-sources.ts
+
+# Run the Deno unit tests for the update script
+test:
+    deno test scripts/
 
 # Verify the flake evaluates for the current system (CI runs this on both linux and darwin)
 check:
