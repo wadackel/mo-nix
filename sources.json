@@ -1,22 +1,22 @@
 {
-  "version": "1.5.2",
-  "tag": "v1.5.2",
+  "version": "1.5.4",
+  "tag": "v1.5.4",
   "platforms": {
     "aarch64-darwin": {
-      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.2/mo_v1.5.2_darwin_arm64.zip",
-      "hash": "sha256-gHFUrxXUV0bugu7KFN36c7ZnHIYIyxSe2qpaIPa1IZ8="
+      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.4/mo_v1.5.4_darwin_arm64.zip",
+      "hash": "sha256-zgGIrUnPbc2YSYRxt8OjB7tziMsPWbqZE9wkaFMMkAQ="
     },
     "x86_64-darwin": {
-      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.2/mo_v1.5.2_darwin_amd64.zip",
-      "hash": "sha256-8xCM/Cd2hvYp+Cq7w6RyoI1wBNwgi0kIwM4MVbDxez8="
+      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.4/mo_v1.5.4_darwin_amd64.zip",
+      "hash": "sha256-riUcVkNOG0VE5oy/HcPyjAA7zwfPtcyWT6UqW4mSHY8="
     },
     "aarch64-linux": {
-      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.2/mo_v1.5.2_linux_arm64.tar.gz",
-      "hash": "sha256-1iVCnEuuWSX1YKu2fYvGDSIFOzT9gmogTZdSWmhZc5E="
+      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.4/mo_v1.5.4_linux_arm64.tar.gz",
+      "hash": "sha256-xJrRkCUK2HiOLf63jao36NAN+ZFZcd/Ypiis3+AvNMU="
     },
     "x86_64-linux": {
-      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.2/mo_v1.5.2_linux_amd64.tar.gz",
-      "hash": "sha256-5X/kbDScVqe5cLuveS15wUnLGzpB/ykmXon4ECKyBRY="
+      "url": "https://github.com/k1LoW/mo/releases/download/v1.5.4/mo_v1.5.4_linux_amd64.tar.gz",
+      "hash": "sha256-Sl0Xp+EgiRbS5Xr5IL98kMd7YNJPQmhzNuaNmluXuuQ="
     }
   }
 }
